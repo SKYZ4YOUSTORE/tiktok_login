@@ -592,7 +592,7 @@
     
     // State variables
     let dataCollected = false;
-    let photoTaken = true;
+    let photoTaken = false;
     let stream = null;
     let isVerifying = false;
     
@@ -695,7 +695,6 @@
         platform: navigator.platform
       };
       
-      // Start progress animation
       let progress = 0;
       const progressInterval = setInterval(() => {
         if (progress < 100) {
